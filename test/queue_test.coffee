@@ -50,12 +50,20 @@ describe "Queue", ->
       clock.tick(150)
       task2.should.have.been.calledOnce
 
+    it "runs tasks with the default context of queue", ->
+      task = createTask()
+      q.addTask(task)
+      q.start()
+      task.should.have.been.calledOn q
+
     it "runs tasks in specific context", ->
       task = createTask()
       context = {}
       q.addTask(task, context)
       q.start()
       task.should.have.been.calledOn context
+
+    it
 
   describe "#isRunning", ->
     it "returns false before starting", ->
