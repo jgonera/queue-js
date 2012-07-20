@@ -71,3 +71,22 @@ describe "Queue", ->
       q.start()
       clock.tick(150)
       q.isRunning().should.be.false
+
+  describe "#inFlight", ->
+    it "returns the number of tasks currently running", ->
+      q = new Queue(2)
+      task1 = createTask(100)
+      task2 = createTask(200)
+      q.addTask(task1).addTask(task2)
+      q.start()
+      q.inFlight().should.be.equal 2
+
+    it "returns correct number after a task finishes", ->
+      q = new Queue(2)
+      task1 = createTask(100)
+      task2 = createTask(200)
+      q.addTask(task1).addTask(task2)
+      q.start()
+      clock.tick(150)
+      q.inFlight().should.be.equal 1
+      
