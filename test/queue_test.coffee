@@ -63,7 +63,13 @@ describe "Queue", ->
       q.start()
       task.should.have.been.calledOn context
 
-    it
+    it "has no effect when invoked more than once", ->
+      task1 = createTask(100)
+      task2 = createTask()
+      q.addTask(task1).addTask(task2)
+      q.start()
+      q.start()
+      task2.should.not.have.been.called
 
   describe "#isRunning", ->
     it "returns false before starting", ->
