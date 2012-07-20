@@ -13,6 +13,9 @@ describe "Queue", ->
     q = Queue()
     q.should.be.an.instanceof Queue
 
+  it "throws an error when `parallelism` < 1", ->
+    (-> new Queue(0)).should.throw(/parallelism/)
+
   describe "#size", ->
     it "returns 0 for empty queue", ->
       q.size().should.equal 0
