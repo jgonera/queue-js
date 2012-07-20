@@ -78,6 +78,13 @@ describe "Queue", ->
       q.start()
       task.should.have.been.calledOn context
 
+    it "runs tasks after errors in previous tasks", ->
+      task1 = sinon.stub().throws()
+      task2 = createTask()
+      q.addTask(task1).addTask(task2)
+      q.start()
+      task2.should.have.been.calledOnce
+
     it "runs callbacks after tasks", ->
       callback1 = sinon.spy()
       callback2 = sinon.spy()
@@ -101,6 +108,14 @@ describe "Queue", ->
       q.start()
       clock.tick()
       callback.should.have.been.calledOn context
+
+    it "runs callbacks after errors in previous callbacks", ->
+      callback1 = sinon.stub().throws()
+      callback2 = sinon.spy()
+      q.addTask(createTask()).addCallback(callback1).addCallback(callback2)
+      q.start()
+      clock.tick()
+      callback2.should.have.been.calledOnce
 
     it "has no effect when invoked more than once", ->
       task1 = createTask(100)
