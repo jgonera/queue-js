@@ -3,9 +3,11 @@
 describe "Queue", ->
   q = null
   beforeEach ->
-    q = Queue()
+    q = new Queue
 
-  it "works when constructed with 'new' keyword"
+  it "works when created without 'new' keyword", ->
+    q = Queue()
+    q.should.be.an.instanceof Queue
 
   describe "#size", ->
     it "returns 0 for empty queue", ->
