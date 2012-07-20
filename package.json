@@ -1,0 +1,12 @@
+{
+  "name": "queue",
+  "version": "0.0.1-dev",
+  "author": "Juliusz Gonera <jgonera@gmail.com>",
+  "main": "./lib/queue",
+  "devDependencies": {
+    "mocha": ">=1.3.0"
+  },
+  "engine": {
+    "node": ">=0.8.2"
+  }
+}
