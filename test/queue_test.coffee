@@ -22,11 +22,11 @@ describe "Queue", ->
 
   describe "#addTask", ->
     it "increases the size by one", ->
-      q.addTask -> console.log "doing nothing"
+      q.addTask(createTask())
       q.size().should.equal 1
 
     it "returns Queue", ->
-      obj = q.addTask createTask()
+      obj = q.addTask(createTask())
       obj.should.equal q
 
   describe "#addCallback", ->
@@ -54,6 +54,13 @@ describe "Queue", ->
       task2.should.not.have.been.called
       clock.tick(150)
       task2.should.have.been.calledOnce
+
+    it "reduces the size after running tasks", ->
+      task1 = createTask(100)
+      task2 = createTask()
+      q.addTask(task1).addTask(task2)
+      q.start()
+      q.size().should.equal 1
 
     it "runs tasks with the default context of queue", ->
       task = createTask()
