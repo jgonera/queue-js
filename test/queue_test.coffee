@@ -29,6 +29,11 @@ describe "Queue", ->
       obj = q.addTask createTask()
       obj.should.equal q
 
+  describe "#addCallback", ->
+    it "returns Queue", ->
+      obj = q.addCallback -> null
+      obj.should.equal q
+
   describe "#start", ->
     it "runs the tasks in order", ->
       task1 = createTask()
@@ -62,6 +67,30 @@ describe "Queue", ->
       q.addTask(task, context)
       q.start()
       task.should.have.been.calledOn context
+
+    it "runs callbacks after tasks", ->
+      callback1 = sinon.spy()
+      callback2 = sinon.spy()
+      q.addTask(createTask()).addCallback(callback1).addCallback(callback2)
+      q.start()
+      clock.tick()
+      callback1.should.have.been.calledOnce
+      callback2.should.have.been.calledOnce
+
+    it "runs callbacks with the default context of queue", ->
+      callback = sinon.spy()
+      q.addTask(createTask()).addCallback(callback)
+      q.start()
+      clock.tick()
+      callback.should.have.been.calledOn q
+
+    it "runs callbacks in specific context", ->
+      callback = sinon.spy()
+      context = {}
+      q.addTask(createTask()).addCallback(callback, context)
+      q.start()
+      clock.tick()
+      callback.should.have.been.calledOn context
 
     it "has no effect when invoked more than once", ->
       task1 = createTask(100)
