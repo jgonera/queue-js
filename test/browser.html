@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+    <script src="../support/coffee-script.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/sinon/lib/sinon.js"></script>
+    <script src="../node_modules/sinon/lib/sinon/spy.js"></script>
+    <script src="../node_modules/sinon/lib/sinon/util/fake_timers.js"></script>
+    <script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script>
+      mocha.setup({
+        ui: 'bdd',
+        globals: ['setTimeout', 'setInterval', 'clearTimeout', 'clearInterval']
+      });
+      window.should = chai.should();
+      // have to wait for CoffeeScript to compile the test
+      setTimeout(mocha.run, 100);
+    </script>
+    <script src="../lib/queue.js"></script>
+    <script type="text/coffeescript" src="queue_test.coffee"></script>
+</head>
+<body>
+  <div id="mocha"></div>
+  <script>
+    </script>
+</body>
+</html>

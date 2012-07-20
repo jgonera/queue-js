@@ -1,4 +1,7 @@
-{Queue} = require '..'
+if typeof exports != 'undefined' and exports != null
+  {Queue} = require '..' if typeof exports != 'undefined' and exports != null
+else if typeof window != 'undefined' and window != null
+  Queue = window.Queue
 
 createTask = (delay=0) ->
   sinon.spy (callback) -> setTimeout callback, delay
