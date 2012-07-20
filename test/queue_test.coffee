@@ -56,3 +56,18 @@ describe "Queue", ->
       q.addTask(task, context)
       q.start()
       task.should.have.been.calledOn context
+
+  describe "#isRunning", ->
+    it "returns false before starting", ->
+      q.isRunning().should.be.false
+
+    it "returns true when running", ->
+      q.addTask(createTask(100))
+      q.start()
+      q.isRunning().should.be.true
+
+    it "returns false after finishing", ->
+      q.addTask(createTask(100))
+      q.start()
+      clock.tick(150)
+      q.isRunning().should.be.false
